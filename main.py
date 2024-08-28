@@ -13,8 +13,8 @@ sentences = {
     0: "You find yourself in the Backrooms...",
     1: "An endless maze of yellowed walls and buzzing lights.",
     2: "The air is thick with unease, and the silence presses down on you.",
-    3: f"\"You must find the {OBJ_NUMBER} to espace this space, quick ! Before they find you\"",
-    4: "\"Perfect ! You finally made it ! Thanks for the help ! Good luck for the rest !\"",
+    3: f'"You must find the {OBJ_NUMBER} to espace this space, quick ! Before they find you"',
+    4: '"Perfect ! You finally made it ! Thanks for the help ! Good luck for the rest !"',
 }
 
 
@@ -41,6 +41,9 @@ def main():
     ceiling.fill((87, 82, 73))
     floor = pygame.Surface((WIDTH // 2, HEIGHT // 2))
     floor.fill((113, 82, 41))
+    sound = pygame.mixer.Sound("sound.wav")
+    sound.set_volume(1.0)
+    sound.play(10000000, fade_ms=10000)
 
     wall_texture = pygame.image.load("wallpaper.png").convert()
     wall_texture = pygame.transform.scale(wall_texture, (400, 100))
@@ -91,8 +94,8 @@ def main():
                     pygame.quit()
                     exit()
                 if event.key == pygame.K_SPACE and not objects and not game_finished:
-                        game_finished = True
-                        player.pos = (20, 20)
+                    game_finished = True
+                    player.pos = (20, 20)
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     LEFT = False
@@ -132,7 +135,10 @@ def main():
         pygame.draw.circle(screen, (100, 255, 100), player.pos, 7)
         for obj in objects:
             obj.draw(screen)
-            if math.floor(player.pos[0]) == obj.pos[0] and math.floor(player.pos[1]) == obj.pos[1]:
+            if (
+                math.floor(player.pos[0]) == obj.pos[0]
+                and math.floor(player.pos[1]) == obj.pos[1]
+            ):
                 objects.remove(obj)
                 remaining_obj -= 1
 
